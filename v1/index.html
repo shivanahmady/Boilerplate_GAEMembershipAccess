@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% autoescape true %}
+
+<body>
+    <p>Hi, {{ user }}!</p>
+
+    <!-- Login/Logout -->
+    <a href="{{ url }}" class="btn">{{ urlText }}</a>
+
+    <!-- Optional: Access Admin -->
+    {% if isAdmin %}
+        <p>
+            Admin Home: <a href="/admin">Here</a>
+        </p>
+    {% endif %}
+
+</body>
+</html>
+{% endautoescape %}
