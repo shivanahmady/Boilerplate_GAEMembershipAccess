@@ -1,21 +1,21 @@
-# Admin-Portal-Access-App
-Sample app of user members login/logout/admin access on Google Cloud App Engine. (WebApp2+Jinja2)
-
+Boilerplate_GAEMembershipAccess
+=================================
+Google App Engine boilerplate template of WebApp2 using the Users API to demonstrate admin/user access.
 
 Prerequisites: 
 ----------------
-- Gcloud, Webapp2, Jinja2
+- Google App Engine (Standard Environment) 
+- Google AppEngine Users API
+- Python 2.7
+- Webapp2
+- Jinja2-2.6
 
 
-To Start:
+Local Development
 -----------------
 - `dev_appserver.py app.yaml`
-
-To Access:
------------------
-- localhost:8080 
+- **localhost:8080**
 
 
-NOTES:
-----------------
-Testing Status: Pending
+
+# v0.0.1

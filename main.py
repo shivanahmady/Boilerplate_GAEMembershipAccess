@@ -11,6 +11,17 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+x = { 
+    "user": None,
+    "name": None,
+    "isAdmin": False,
+    "isAuth": False,
+    "access_url": "",
+    "access_prompt": "",
+    "urlText": "",
+    "url":""
+}
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         name = 'User'
@@ -21,23 +32,23 @@ class MainPage(webapp2.RequestHandler):
             name = user.nickname()
             url = users.create_logout_url('/')
             #url = users.create_logout_url(self.request.uri)
-            urlText = 'Logout'
+            x["name"] = name
+            x["isAuth"] = True
+            x['urlText'] = "Login"
+            x['url'] = url
             if users.is_current_user_admin():
-                isAdmin = True 
+                x["isAdmin"] = True
         else:
             url = users.create_login_url('/')
             #url = users.create_login_url(self.request.uri)
-            urlText = 'Login'
+            x["isAdmin"] = False
+            x["isAuth"] = False
+            url = users.create_login_url("/")
+            x['urlText'] = "Login"
+            x['url'] = url
 
-        template_values = {
-            'user': name,
-            'url': url,
-            'urlText': urlText,
-            'isAdmin': isAdmin
-        }
-
-        template = JINJA_ENVIRONMENT.get_template('index.html')
-        self.response.write(template.render(template_values))
+        template = JINJA_ENVIRONMENT.get_template('/templates/index.html')
+        self.response.write(template.render(x))
 
 class AdminPage(webapp2.RequestHandler):
     def get(self):
@@ -45,9 +56,14 @@ class AdminPage(webapp2.RequestHandler):
 
         if user:
             url = users.create_logout_url('/')
+            x["isAuth"] = True
+            x['user'] = user
+            x['name'] = user.nickname()
             if users.is_current_user_admin():
-                msg = 'You are an Admin.    </br><a href="{}">Logout As Admin</a>'.format(url)
-                self.response.write(msg)
+                x['msg'] = 'You are an Admin.    </br><a href="{}">Logout As Admin</a>'.format(url)
+                x['url'] = url
+                template = JINJA_ENVIRONMENT.get_template('/templates/index.html')
+                self.response.write(template.render(x))
             else:
                 msg = 'Sorry, Admin Access Only.    </br><a href="{}">Logout As User</a>'.format(url)
                 self.response.write(msg)
